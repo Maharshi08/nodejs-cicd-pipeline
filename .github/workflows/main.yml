@@ -36,9 +36,8 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-        - name: Build Docker Image
+      - name: Build Docker Image
         run: docker build -t maharshi86/nodejs-cicd-app:latest .
 
       - name: Push Docker Image to Docker Hub
         run: docker push maharshi86/nodejs-cicd-app:latest
-
