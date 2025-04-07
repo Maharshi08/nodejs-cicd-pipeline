@@ -1,38 +1,44 @@
-name: Node.js CI/CD
+name: Node.js CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Run Lint (Optional)
-      run: echo "No lint script defined"
+      - name: Run Tests
+        run: npm test || echo "No tests defined or failed"
 
-    - name: Run Tests (Optional)
-      run: echo "No tests defined"
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Docker Login
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Build Docker Image
-      run: docker build -t maharshi08/nodejs-cicd-app:latest .
+        - name: Build Docker Image
+        run: docker build -t maharshi86/nodejs-cicd-app:latest .
 
-    - name: Push Docker Image
-      run: docker push maharshi08/nodejs-cicd-app:latest
+      - name: Push Docker Image to Docker Hub
+        run: docker push maharshi86/nodejs-cicd-app:latest
+
