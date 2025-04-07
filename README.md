@@ -16,7 +16,7 @@ The goal of this task was to automate the process of building and deploying a No
 - Pushes the Docker image to Docker Hub (`maharshi86/nodejs-cicd-app`).
 
 ## 📦 Docker Hub
-- [Docker Image Link](https://hub.docker.com/r/maharshi86/nodejs-cicd-app)
+- [Docker Image Link](https://hub.docker.com/r/maharshi86/nodejs-cicd-app/tags)
 
 ## 🧪 Sample Workflow File
 Located in `.github/workflows/main.yml`.
